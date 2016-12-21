@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kanyildiz.MyController &mdash; MyGame 09.11.2016 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '09.11.2016',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="MyGame 09.11.2016 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">MyGame 09.11.2016 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for kanyildiz.MyController</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">shuffle</span>
+
+<span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">kanyildiz</span> <span class="kn">import</span> <span class="n">MyModel</span>
+<span class="kn">from</span> <span class="nn">kanyildiz</span> <span class="kn">import</span> <span class="n">MyView</span>
+
+
+<div class="viewcode-block" id="MyController"><a class="viewcode-back" href="../../kanyildiz.html#kanyildiz.MyController.MyController">[docs]</a><span class="k">class</span> <span class="nc">MyController</span><span class="p">(</span><span class="n">QWidget</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; MVC pattern: Creates a controller - mvc pattern.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a new controller with a object MyView and a object MyModel</span>
+<span class="sd">        using the mvc pattern.</span>
+<span class="sd">        :param parent:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="c"># Object of MyView</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span> <span class="o">=</span> <span class="n">MyView</span><span class="o">.</span><span class="n">Ui_Window</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c"># Object of MyModel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myModel</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">MyModel</span><span class="p">()</span>
+        <span class="c"># List with all 15 buttons (1-15)(without &quot;Neu&quot; and &quot;Ende&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B01</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B02</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B03</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B04</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B05</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B06</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B07</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B08</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B09</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B10</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B11</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B12</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B13</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B14</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">B15</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;1&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c"># connect the buttons with the clicked signal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connectButtons</span><span class="p">()</span>
+        <span class="c"># start a new game</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="c"># set &quot;Spiel&quot; Counter to its String</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">SLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">ls</span><span class="p">))</span>
+
+<div class="viewcode-block" id="MyController.bhs"><a class="viewcode-back" href="../../kanyildiz.html#kanyildiz.MyController.MyController.bhs">[docs]</a>    <span class="k">def</span> <span class="nf">bhs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; sender: Der gedrückte Button</span>
+<span class="sd">            Überprüfen des gedrückten Buttons ob sie in richtigerReihenfolge gedrückt wurden.</span>
+<span class="sd">            Je nach dem werden die Werte erhöt oder niedriger.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">sender</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span><span class="p">()</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">QPushButton</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sender</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">Value</span><span class="p">:</span>
+            <span class="n">sender</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">rreihenfolge</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">KLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lk</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">GLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lg</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">OLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lo</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Value</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">freihenfolge</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">FLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lf</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">GLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lg</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="MyController.start"><a class="viewcode-back" href="../../kanyildiz.html#kanyildiz.MyController.MyController.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Jedes mal wenn des Program aufgerufen wird oder der Neu Button gedrückt wird</span>
+<span class="sd">            wird diese Methode aufgerufen und die Buttons werden wieder zufällig beschriftet.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffleButtons</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">Neu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffleButtons</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LabelSetNew</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="MyController.connectButtons"><a class="viewcode-back" href="../../kanyildiz.html#kanyildiz.MyController.MyController.connectButtons">[docs]</a>    <span class="k">def</span> <span class="nf">connectButtons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bhs</span><span class="p">)</span>
+            <span class="c"># c = &quot;&quot;</span>
+            <span class="c"># i.setEnabled(False)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">NeuButton</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="MyController.LabelSetNew"><a class="viewcode-back" href="../../kanyildiz.html#kanyildiz.MyController.MyController.LabelSetNew">[docs]</a>    <span class="k">def</span> <span class="nf">LabelSetNew</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Hier werden die Labels neu beschriftet wenn der Neu Button</span>
+<span class="sd">            gedrückt wird.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">KLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lk</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">GLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lg</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">OLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lo</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">FLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lf</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">SLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">ls</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="MyController.shuffleButtons"><a class="viewcode-back" href="../../kanyildiz.html#kanyildiz.MyController.MyController.shuffleButtons">[docs]</a>    <span class="k">def</span> <span class="nf">shuffleButtons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Vermischen der Liste in dem die Buttons enthalten sind.</span>
+<span class="sd">            Verweisen von Strings auf die Buttons.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;2&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">2</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;3&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">3</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;4&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">4</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;5&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">5</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;6&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">6</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;7&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">7</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;8&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">8</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;9&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">9</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;10&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">10</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;11&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">11</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;12&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">12</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;13&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">13</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">13</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;14&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">14</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">14</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;15&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">15</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">==</span> <span class="mi">15</span><span class="p">:</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">textbutton</span> <span class="o">=</span> <span class="s">&quot;1&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">itextbutton</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myView</span><span class="o">.</span><span class="n">OLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">myModel</span><span class="o">.</span><span class="n">lo</span><span class="p">))</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">MyController</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">MyGame 09.11.2016 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Kanyildiz.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
