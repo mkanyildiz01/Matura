@@ -1,0 +1,34 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Hauptmenü</title>
+    </h:head>
+ 	
+	<h:body>
+		<h:form>  
+    	<p:growl id="messages"/>
+ 		<p:menubar activeIndex="#{param.i}">
+        	<p:submenu label="CREATE" value="CREATE" outcome="Create" >
+            	<p:menuitem value="Zur Eingabe" url="http://localhost:8080/crud/Create.xhtml?i=0" />
+        	</p:submenu>
+ 			<p:submenu label="READ" value="READ" outcome="Read">
+            	<p:menuitem value="Zur Eingabe" url="http://localhost:8080/crud/Read.xhtml?i=1" />
+        	</p:submenu>
+        	<p:submenu label="UPDATE" value="UPDATE" outcome="Update" >
+            	<p:menuitem value="Zur Eingabe" url="http://localhost:8080/crud/Update.xhtml?i=2" />
+        	</p:submenu>
+ 			<p:submenu label="DELETE" value="DELETE" outcome="Delete">
+            	<p:menuitem value="Zur Eingabe" url="http://localhost:8080/crud/Delete.xhtml?i=3" />
+        	</p:submenu>
+        	<p:submenu label="DELETE" value="DELETE" outcome="Delete">
+            	<p:menuitem value="Hauptseite" url="http://localhost:8080/crud/Output.xhtml" />
+        	</p:submenu>
+    	</p:menubar>
+	</h:form>
+	Erfolgreich Durchgeführt
+</h:body>
+</html>
