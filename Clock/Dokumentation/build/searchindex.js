@@ -1,0 +1,1 @@
+Search.setIndex({objtypes:{},envversion:43,filenames:["modules","index"],terms:{search:1,index:1,kanyildiz:1,content:1,modul:1,page:1},titles:["kanyildiz","Welcome to ClocK&#8217;s documentation!"],objnames:{},titleterms:{welcom:1,kanyildiz:0,tabl:1,clock:1,indic:1,document:1},objects:{}})
